@@ -4,9 +4,10 @@ import UserDetails from './components/UserDetails'
 import { getUsers } from './data/apiCalls'
 import { transformUsers } from './data/transformers'
 import HighlightWrapper from './components/HighlightWrapper'
+import { UserModel } from './types/models/user'
 
 const App = () => {
-  const [userList, setUserList] = useState()
+  const [userList, setUserList] = useState<Array<UserModel>>([])
 
   useEffect(() => {
     const getUserData = async () => {
@@ -24,7 +25,7 @@ const App = () => {
     getUserData()
   }, [])
 
-  const renderUser = ({ id, email, firstName, lastName }) => {
+  const renderUser = ({ id, email, firstName, lastName }: UserModel) => {
     return (
       <li key={id}>
         <HighlightWrapper>

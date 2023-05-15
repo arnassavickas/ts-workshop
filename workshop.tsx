@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import React, { Component } from 'react'
+import { satisfies } from 'semver'
 
 // ❔ Javascript - dynamically typed language
 // ❔ Typescript - statically and strictly typed extension of Javascript
@@ -28,11 +29,12 @@ import React, { Component } from 'react'
 // let myName = "John Doe"
 // console.log(myName.toLowerCase())
 
-// console.log(myName.to)
+// console.log(myName.toLocaleUpperCase())
 // console.log(myName.toFixed(2))
 
 // 👉 Type annotation / declaration
 // let firstName: string
+// const lastName = 'Doe'
 // firstName = 'John Doe'
 // firstName = 4
 
@@ -42,7 +44,7 @@ import React, { Component } from 'react'
 // firstName = 4
 // firstName = 'John Doe'
 // firstName.toFixed(2)
-// const age: number = lastName
+// const age: number = firstName
 
 // 👉 Functions
 // const repeatText = (text, count) => {
@@ -65,7 +67,7 @@ import React, { Component } from 'react'
 // }
 
 // repeatText('hi', 5)
-// repeatText(5, '5')
+// repeatText('hi', '5')
 
 // 👉 Optional parameters
 // function greeting(name?: string) {
@@ -95,7 +97,7 @@ import React, { Component } from 'react'
 
 // 👉 Explicit Return Types
 // function greeting(name: string): undefined {
-//   return 'undefined'
+//   return undefined
 // }
 
 // const greeting = (name: string): undefined => {
@@ -105,6 +107,12 @@ import React, { Component } from 'react'
 // 👉 Void Return Type
 // function greeting(name = 'no name') {
 //   console.log(`Hello, ${name}!`)
+
+//   return undefined
+// }
+
+// type Props = {
+//   onClick: () => number
 // }
 
 // 👉 Array Type Annotations
@@ -130,7 +138,7 @@ import React, { Component } from 'react'
 // const firstName = array[2]
 
 // 👉 Empty array
-// const array = []
+// const array: Array<string | undefined | null | boolean> = []
 // array.push('name')
 // array.push(undefined)
 // array.push(null)
@@ -162,22 +170,22 @@ import React, { Component } from 'react'
 // myName = 'some name'
 // myName = 4
 
-// type UserType = {
+// type User = {
 //   name: string
 //   age: number
 // }
 
-// let user: UserType
+// let user: User
 // user = { name: 'Karolis', age: 12 }
 
 // type CompanyType = {
-//   name: string,
-//   ceo: UserType,
-//   employees: Array<UserType>
+//   name: string
+//   ceo: User
+//   employees: Array<User>
 // }
 
 // 📖 Interface https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#interfaces
-// interface UserType {
+// interface User {
 //   name: string
 //   age: number
 // }
@@ -202,7 +210,7 @@ import React, { Component } from 'react'
 //   return Array(size).fill(value)
 // }
 
-// const filled = getFilledArray(null, 6)
+// const filled = getFilledArray({nice: ''}, 6)
 
 // 👉 Generic types
 // type GridItem<T> = {
@@ -229,7 +237,7 @@ import React, { Component } from 'react'
 // stringOrNo = 'four'
 
 // let arrayUnion: Array<number | string>
-// arrayUnion = [4, 3, 2, 'some', 3]
+// arrayUnion = [4, 3, 2, 'some', 3, null]
 
 // 👉 Type Narrowing
 // function formatValue(value: string | number) {
@@ -280,7 +288,7 @@ import React, { Component } from 'react'
 //   Error = 'error'
 // }
 
-// const checkState = (newState: UiState) => {
+// const checkState = (newState: UiState.Error) => {
 //   if (newState === UiState.Error) {
 //     console.error('oops')
 //   } else {
@@ -288,7 +296,7 @@ import React, { Component } from 'react'
 //   }
 // }
 
-// checkState(UiState.Pending)
+// checkState(UiState.Error)
 // checkState('')
 // checkState('pending')
 
@@ -329,9 +337,9 @@ import React, { Component } from 'react'
 
 // 👉 Component props
 
-// type Props = {
-//   isEnabled: true
-// }
+type Props = {
+  isEnabled: false
+}
 
 // const FunctionComponent = ({ isEnabled }: Props) => {
 //   return <div>{isEnabled}</div>
@@ -393,3 +401,14 @@ import React, { Component } from 'react'
 
 // 📖 Typescript handbook https://www.typescriptlang.org/docs/handbook/
 // 📖 Matt Pocock https://www.youtube.com/@mattpocockuk/videos
+
+// type Options = {
+//   [Key: string]: {theme: string; color: string}
+// }
+
+// const OPTIONS  = {
+//   RED: { theme: 'error', color: '#ff0000' },
+//   GREEN: { theme: 'success', color: '#00ff00' }
+// } satisfies Options
+
+// console.log(OPTIONS.RED)
