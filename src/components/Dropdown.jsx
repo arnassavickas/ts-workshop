@@ -1,6 +1,10 @@
 const Dropdown = ({ options, selectedValue, onSelectedChange }) => {
   const renderOption = ({ value, title }) => {
-    return <option value={value}>{title}</option>
+    return (
+      <option key={value} value={value}>
+        {title}
+      </option>
+    )
   }
 
   const handleChange = (event) => {
