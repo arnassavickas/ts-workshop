@@ -5,21 +5,24 @@ import { getUsers } from './data/apiCalls'
 import { transformUsers } from './data/transformers/user'
 import HighlightWrapper from './components/HighlightWrapper'
 import Dropdown from './components/Dropdown'
+import { UserModel } from './types/models/user'
+import { UiState } from './constants/uiState'
 
 const SORT_OPTIONS = [
   { value: 'asc', title: 'Id ⬆️' },
-  { value: 'desc', title: 'Id ⬇️' }
-]
+  { value: 'dsc', title: 'Id ⬇️' },
+  { value: 'nameasc', title: 'Name ⬆️' }
+] as const
+
+type SortOptionsValue = (typeof SORT_OPTIONS)[number]['value']
 
 const App = () => {
-  const [userList, setUserList] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
-  const [selectedSort, setSelectedSort] = useState('asc')
+  const [userList, setUserList] = useState<Array<UserModel>>([])
+  const [uiState, setUiState] = useState(UiState.Idle)
+  const [selectedSort, setSelectedSort] = useState<SortOptionsValue>('asc')
 
   const handleFetchData = useCallback(async () => {
-    setIsError(false)
-    setIsLoading(true)
+    setUiState(UiState.Pending)
 
     try {
       const { data } = await getUsers()
@@ -27,16 +30,18 @@ const App = () => {
       const transformedResponse = transformUsers(data.data)
 
       setUserList(transformedResponse)
+
+      setUiState(UiState.Success)
     } catch (error) {
       console.log(error)
-      setIsError(true)
+      setUiState(UiState.Error)
     }
-
-    setIsLoading(false)
   }, [])
 
   const sortedUsers = userList.sort((a, b) => {
     if (selectedSort === 'asc') return a.id - b.id
+
+    if (selectedSort === 'dsc') return a.firstName.localeCompare(b.firstName)
 
     return b.id - a.id
   })
@@ -45,7 +50,7 @@ const App = () => {
     handleFetchData()
   }, [handleFetchData])
 
-  const renderUser = ({ id, email, firstName, lastName }) => {
+  const renderUser = ({ id, email, firstName, lastName }: UserModel) => {
     return (
       <div key={id}>
         <HighlightWrapper>
@@ -60,9 +65,9 @@ const App = () => {
     )
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (uiState === UiState.Pending) return <div>Loading...</div>
 
-  if (isError) return <div>Something went wrong...</div>
+  if (uiState === UiState.Error) return <div>Something went wrong...</div>
 
   return (
     <div>

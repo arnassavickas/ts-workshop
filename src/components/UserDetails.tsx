@@ -1,6 +1,14 @@
 import { Component } from 'react'
 
-class UserDetails extends Component {
+type Props = {
+  email: string
+}
+
+type State = {
+  isEmailVisible: boolean
+}
+
+class UserDetails extends Component<Props, State> {
   state = {
     isEmailVisible: false
   }

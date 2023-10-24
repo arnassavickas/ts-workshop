@@ -1,6 +1,10 @@
 import { useState } from 'react'
 
-const HighlightWrapper = ({ children }) => {
+type Props = {
+  children: JSX.Element
+}
+
+const HighlightWrapper = ({ children }: Props) => {
   const [isHighlighted, setIsHighlighted] = useState(false)
 
   const handleHighlightClick = () => setIsHighlighted(!isHighlighted)
